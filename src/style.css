@@ -1,0 +1,609 @@
+/* Figma tokens (Bancroft's homepage). */
+:root {
+  --blue: #2c4255; /* Corporate Blue */
+  --oats: #f4efe6; /* Oats */
+  --sage: #bfddd8; /* Sage */
+  --sage-50: rgba(191, 221, 216, 0.5);
+  --gold: #b39863; /* Corporate Gold */
+  --serif: 'Minion Pro', 'Crimson Pro', Georgia, serif;
+}
+
+html,
+body {
+  margin: 0;
+  background: #dce4e7;
+}
+
+body {
+  font-family: var(--serif);
+  color: var(--blue);
+  -webkit-font-smoothing: antialiased;
+}
+
+#stage {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100svh;
+  display: block;
+}
+
+/* Stop 1: hero photo, drawn by src/hero.ts (layout per Figma Desktop Scene 1). */
+#hero {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100svh;
+  display: block;
+  background: #f2eee6;
+}
+
+/* Black used to hide the photo → 3D cut inside the archway. */
+#fade {
+  position: fixed;
+  inset: 0;
+  background: #0b0a09;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Scroll length for the whole fly-through; main.ts sets it from the timeline's total. */
+#track {
+  position: relative;
+  height: 800svh;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------------- Type */
+
+.h3,
+.h4,
+.h5 {
+  margin: 0;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+.h3 {
+  font-size: 40px;
+}
+.h4 {
+  font-size: 32px;
+}
+.h5 {
+  font-size: 24px;
+  line-height: 1.1;
+}
+.body {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.1;
+}
+.body--narrow {
+  width: 350px;
+  max-width: 100%;
+}
+.eyebrow {
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.1;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ---------------------------------------------------------------- Buttons */
+
+.btn {
+  display: inline-flex;
+  padding: 2px;
+  text-decoration: none;
+  font: 12px/1 var(--serif);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border: 0;
+  cursor: pointer;
+}
+.btn > span {
+  display: block;
+  padding: 12px 16px;
+}
+.btn--blue {
+  border: 2px solid rgba(44, 66, 85, 0.5);
+  background: none;
+}
+.btn--blue > span {
+  background: var(--blue);
+  color: var(--oats);
+}
+.btn--sage {
+  background: var(--sage-50);
+}
+.btn--sage > span {
+  background: var(--sage);
+  color: var(--blue);
+}
+.btn:hover > span,
+.entry:hover {
+  filter: brightness(0.96);
+}
+
+/* ---------------------------------------------------------------- Header */
+
+#site-header {
+  position: fixed;
+  top: 32px;
+  left: 0;
+  right: 0;
+  padding: 0 48px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  z-index: 5;
+}
+.menu {
+  position: relative;
+  width: 90px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--blue);
+  text-decoration: none;
+}
+.menu__bars {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: -2px;
+}
+.menu__bars img {
+  display: block;
+}
+.logo {
+  position: relative;
+  width: 116px;
+  height: 72px;
+  display: block;
+}
+.logo__crest,
+.logo__strapline {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+}
+.logo__crest {
+  top: 3px;
+  width: 40px;
+  height: 29.206px;
+  mask-size: 40px 29.204px;
+  -webkit-mask-size: 40px 29.204px;
+}
+.logo__strapline {
+  top: 39.51px;
+  width: 110px;
+  height: 29.251px;
+  mask-size: 110px 29.251px;
+  -webkit-mask-size: 110px 29.251px;
+}
+.logo img {
+  display: block;
+}
+
+/* ---------------------------------------------------------------- Rail */
+
+#rail {
+  position: fixed;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 24px;
+  z-index: 5;
+}
+#rail button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 2px 2px 8px;
+  border: 0;
+  border-radius: 100px;
+  background: var(--oats);
+  color: var(--blue);
+  font: 10px/1.1 var(--serif);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+/* The pill stays solid; only its label and dot dim on inactive stops. */
+#rail span,
+#rail img {
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+}
+#rail button:hover span,
+#rail button:hover img,
+#rail button.is-active span,
+#rail button.is-active img {
+  opacity: 1;
+}
+#rail img {
+  display: block;
+}
+
+/* ---------------------------------------------------------------- Panels */
+
+#panels {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+.panel {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  visibility: hidden;
+}
+.panel.is-shown {
+  visibility: visible;
+}
+.panel.is-live a,
+.panel.is-live button {
+  pointer-events: auto;
+}
+/* While a stop's copy is up, an even Oats veil sits between the illustration and the copy (the Figma
+   frames put copy on flat Oats). Its strength follows the copy in and out; see VEIL in content.ts. */
+#veil {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  pointer-events: none;
+  z-index: 3;
+}
+.stack {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+.panel--hero .stack {
+  /* Sits in the sky above the photo (Figma centres it 175px above the middle; the photo here is a
+     touch smaller, so the copy sits a little lower). */
+  transform: translateY(-150px);
+}
+.stack--426 {
+  width: 426px;
+}
+.stack--669 {
+  width: 669px;
+}
+.heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.panel--hero .h3,
+.panel--hero .body--narrow {
+  width: 360px;
+}
+.rule {
+  display: block;
+}
+.scroll-cue {
+  width: 281px;
+}
+.entry-points {
+  display: flex;
+  gap: 32px;
+}
+.entry {
+  display: block;
+  padding: 4px;
+  background: var(--sage-50);
+  color: var(--blue);
+  text-decoration: none;
+}
+.entry__inner {
+  width: 202px;
+  height: 102px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--sage);
+}
+.ctas {
+  display: flex;
+  gap: 24px;
+}
+.video {
+  position: relative;
+  width: 400px;
+  height: 225.116px;
+  padding: 0;
+  border: 4px solid var(--sage);
+  overflow: hidden;
+  background: var(--sage);
+  cursor: pointer;
+}
+.video__still {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.video__play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.3s ease;
+}
+.video:hover .video__play {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+.quote {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.quote blockquote {
+  margin: 0;
+}
+.quote em,
+.h3 em,
+.h4 em {
+  font-style: italic;
+}
+
+/* Placeholder until the Head's video file is supplied; scroll is locked while open. */
+#video-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  background: rgba(44, 66, 85, 0.6);
+}
+#video-overlay[hidden] {
+  display: none;
+}
+.video-overlay__frame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: var(--oats);
+}
+.video-overlay__frame img {
+  width: min(800px, 80vw);
+  display: block;
+}
+
+#hud {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+  padding: 6px 10px;
+  font: 12px/1.4 ui-monospace, Menlo, monospace;
+  color: #f2eee6;
+  background: rgba(20, 24, 30, 0.75);
+  border-radius: 4px;
+  pointer-events: none;
+  white-space: pre;
+}
+
+/* ---------------------------------------------------------------- Mobile (Figma Mobile Scenes 1-5) */
+
+@media (max-width: 767px) {
+  .h3 {
+    font-size: 28px;
+  }
+  .h4 {
+    font-size: 24px;
+  }
+  .h5 {
+    font-size: 20px;
+    line-height: 1;
+  }
+  .body {
+    font-size: 14px;
+    line-height: 1.2;
+  }
+  .body--narrow {
+    width: 187px;
+  }
+  .desktop-only {
+    display: none !important;
+  }
+
+  #site-header {
+    top: 20px;
+    padding: 0 18px;
+  }
+  .menu {
+    width: 54px;
+  }
+  /* "Visit us" is a plain text link on mobile. */
+  .btn--blue.visit {
+    border: 0;
+    padding: 0;
+    width: 54px;
+    height: 16px;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .btn--blue.visit > span {
+    padding: 0;
+    background: none;
+    color: var(--blue);
+  }
+
+  /* Rail: dots only, no pill (Figma Mobile Scenes), inactive at 40%. */
+  #rail {
+    right: 18px;
+    top: calc(50% + 67.5px);
+    gap: 6px;
+  }
+  #rail button {
+    padding: 2px;
+    background: none;
+  }
+  #rail span {
+    display: none;
+  }
+  #rail img {
+    opacity: 0.4;
+  }
+
+  .panel {
+    padding: 60px 18px 0;
+    box-sizing: border-box;
+  }
+  .stack,
+  .stack--426,
+  .stack--669 {
+    width: 303px;
+    max-width: 100%;
+  }
+  .heading {
+    width: 235px;
+  }
+  .panel--hero .stack {
+    gap: 30px;
+    /* Figma: 63px above centre (the panel's 60px top padding already shifts it 30px down). */
+    transform: translateY(-93px);
+  }
+  .panel--hero .h3,
+  .panel--hero .body--narrow {
+    width: 235px;
+  }
+  .stack--669 .body--narrow {
+    width: 211px;
+  }
+  .entry-points,
+  .ctas {
+    flex-direction: column;
+    align-items: center;
+  }
+  .entry-points {
+    gap: 18px;
+  }
+  .entry__inner {
+    width: 192px;
+    height: 92px;
+  }
+  .stack--426 {
+    gap: 12px;
+  }
+  .stack--426 .h3 {
+    width: 211px;
+  }
+  .stack--426 .body {
+    width: 249px;
+  }
+  .stack--426 .btn {
+    margin-top: 20px;
+  }
+  .video {
+    width: 250px;
+    height: 140.698px;
+    border-width: 2px;
+  }
+  .video__play {
+    width: 40px;
+    height: 40px;
+  }
+  .quote {
+    width: 253px;
+  }
+}
+
+/* ---------------------------------------------------------------- Reduced motion */
+/* No camera movement: each stop is a still of its view with its copy, stacked down the page. */
+
+.reduced #stage,
+.reduced #hero,
+.reduced #fade,
+.reduced #veil,
+.reduced #track {
+  display: none;
+}
+.reduced #panels {
+  position: static;
+  pointer-events: auto;
+}
+.reduced .panel {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+  visibility: visible;
+  overflow: hidden;
+}
+.reduced .panel [data-beat] {
+  opacity: 1 !important;
+  transform: none !important;
+}
+.reduced .panel a,
+.reduced .panel button {
+  pointer-events: auto;
+}
+.panel__still {
+  display: none;
+}
+.reduced .panel__still {
+  display: block;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+/* The same Oats veil as the scrolling version, behind each stop's copy. */
+.reduced .panel:not(.panel--hero)::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(244, 239, 230, 0.9);
+  z-index: -1;
+}
+.reduced .panel--hero {
+  background: linear-gradient(to bottom, #f2eee6 23%, #aec0da 68%);
+}
+.reduced .panel--hero .panel__still {
+  inset: auto;
+  left: 50%;
+  bottom: -7.5%;
+  width: auto;
+  height: max(62.8%, 35.3vw);
+  transform: translateX(-50.9%);
+  object-fit: initial;
+}
+.reduced .scroll-cue {
+  visibility: hidden;
+}
+@media (max-width: 767px) {
+  .reduced .panel--hero .panel__still {
+    bottom: 0;
+    height: 43.5%;
+  }
+}

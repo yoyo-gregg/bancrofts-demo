@@ -1,0 +1,5 @@
+node_modules
+dist
+.DS_Store
+# Client brief, specs and reference images stay local (the repo is public).
+docs

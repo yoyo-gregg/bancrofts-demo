@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bancroft's Fly-through</title>
+    <!-- Brand face is Minion Pro (used if installed); Crimson Pro is the closest free web fallback. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;1,400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <canvas id="stage"></canvas>
+    <canvas id="hero" aria-hidden="true"></canvas>
+    <div id="fade"></div>
+    <div id="veil"></div>
+    <div id="track"></div>
+
+    <header id="site-header">
+      <a class="menu" href="#" aria-label="Open menu">
+        <span class="menu__bars" aria-hidden="true">
+          <img src="./assets/menu-bar.svg" width="9" height="1" alt="" />
+          <img src="./assets/menu-bar.svg" width="9" height="1" alt="" />
+        </span>
+        Menu
+      </a>
+      <a class="logo" href="#" aria-label="Bancroft's School home">
+        <span
+          class="logo__crest"
+          style="mask-image: url('./assets/crest-mask.svg'); -webkit-mask-image: url('./assets/crest-mask.svg')"
+        >
+          <img src="./assets/crest.svg" width="40" height="29.204" alt="" />
+        </span>
+        <span
+          class="logo__strapline"
+          style="
+            mask-image: url('./assets/logo-strapline-mask.svg');
+            -webkit-mask-image: url('./assets/logo-strapline-mask.svg');
+          "
+        >
+          <img src="./assets/logo-strapline.svg" width="110" height="29.258" alt="" />
+        </span>
+      </a>
+      <a class="btn btn--blue visit" href="#"><span>Visit us</span></a>
+    </header>
+
+    <nav id="rail" aria-label="Fly-through sections">
+      <button type="button" data-stop="0"><span>The Tower</span><img src="./assets/rail-dot.svg" width="14" height="14" alt="" /></button>
+      <button type="button" data-stop="1"><span>Archway</span><img src="./assets/rail-dot.svg" width="14" height="14" alt="" /></button>
+      <button type="button" data-stop="2"><span>The Quad</span><img src="./assets/rail-dot.svg" width="14" height="14" alt="" /></button>
+      <button type="button" data-stop="3"><span>Old Tree</span><img src="./assets/rail-dot.svg" width="14" height="14" alt="" /></button>
+      <button type="button" data-stop="4"><span>Cloister</span><img src="./assets/rail-dot.svg" width="14" height="14" alt="" /></button>
+    </nav>
+
+    <!-- One panel per stop (Figma: Desktop - Homepage v1 - Scene 1-5). data-beat orders the reveal. -->
+    <main id="panels">
+      <section class="panel panel--hero" data-stop="0">
+        <div class="stack">
+          <div class="heading" data-beat="0">
+            <h1 class="h3">A <em>London</em> school with room to grow.</h1>
+            <p class="body body--narrow">Academic strength, warmth and community since 1737.</p>
+          </div>
+          <img class="rule" src="./assets/gold-rule.svg" width="50" height="1" alt="" data-beat="1" />
+          <p class="eyebrow scroll-cue" data-beat="1">Scroll to discover</p>
+        </div>
+      </section>
+
+      <section class="panel" data-stop="1">
+        <div class="stack">
+          <div class="heading" data-beat="0">
+            <h2 class="h3">Where will your <em>journey</em> begin?</h2>
+            <p class="body body--narrow">Three entry points, one community from 7 to 18.</p>
+          </div>
+          <img class="rule" src="./assets/gold-rule.svg" width="50" height="1" alt="" data-beat="1" />
+          <div class="entry-points">
+            <a class="entry" href="#" data-beat="2"><span class="entry__inner"><span class="h5">7+ Prep</span><span class="eyebrow">Ages 7 to 11</span></span></a>
+            <a class="entry" href="#" data-beat="3"><span class="entry__inner"><span class="h5">11+ Senior</span><span class="eyebrow">Ages 11 to 16</span></span></a>
+            <a class="entry" href="#" data-beat="4"><span class="entry__inner"><span class="h5">16+ Sixth Form</span><span class="eyebrow">The final two years</span></span></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" data-stop="2">
+        <div class="stack">
+          <div class="heading" data-beat="0">
+            <h2 class="h3"><em>Proof</em>, carved in stone</h2>
+            <p class="body body--narrow" data-beat="1">
+              85% of our leavers go on to top-25% universities. Every Sixth Former studies maths.
+            </p>
+          </div>
+          <img class="rule" src="./assets/gold-rule.svg" width="50" height="1" alt="" data-beat="1" />
+          <div class="ctas" data-beat="2">
+            <a class="btn btn--sage" href="#"><span>Our academic results</span></a>
+            <a class="btn btn--sage" href="#"><span>Awards &amp; recognition</span></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" data-stop="3">
+        <div class="stack stack--426">
+          <h2 class="h3" data-beat="0">A <em>welcome</em> from our Head</h2>
+          <button class="video" type="button" data-beat="1" aria-label="Play the Head's welcome video">
+            <img class="video__still" src="./assets/head-video-still.webp" alt="" />
+            <img class="video__play" src="./assets/play-button.svg" width="59.535" height="59.535" alt="" />
+          </button>
+          <p class="body" data-beat="2">
+            Read why our Head believes Bancroft’s offers a genuinely complete school experience, academically and beyond.
+          </p>
+          <a class="btn btn--sage" href="#" data-beat="3"><span>Read the Head’s welcome</span></a>
+        </div>
+      </section>
+
+      <section class="panel" data-stop="4">
+        <div class="stack stack--669">
+          <div class="heading" data-beat="0">
+            <h2 class="h4">Life at Bancroft’s</h2>
+            <p class="body body--narrow">Don’t take our word for it. Hear it from the families who know us best.</p>
+          </div>
+          <img class="rule" src="./assets/gold-rule.svg" width="50" height="1" alt="" data-beat="1" />
+          <figure class="quote" data-beat="1">
+            <blockquote class="h3"><em>“Within a term, she wasn’t just settled. She’d found her people.”</em></blockquote>
+            <figcaption class="eyebrow" data-beat="2">Year 7 parent</figcaption>
+          </figure>
+          <div class="ctas" data-beat="2">
+            <a class="btn btn--sage" href="#"><span>Go to School Life</span></a>
+            <a class="btn btn--sage desktop-only" href="#"><span>See our latest news</span></a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="video-overlay" hidden>
+      <div class="video-overlay__frame">
+        <img src="./assets/head-video-still.webp" alt="Bancroft's Head" />
+        <p class="eyebrow">Video to follow</p>
+        <button type="button" class="btn btn--blue video-overlay__close"><span>Close</span></button>
+      </div>
+    </div>
+
+    <div id="hud" hidden></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
