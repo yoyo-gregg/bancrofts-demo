@@ -7,7 +7,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { buildModel } from './scene/model';
 import { CameraPath } from './scene/path';
 import { STOP_NAMES, loadPath } from './scene/stops';
-import { HANDOVER, Timeline } from './scene/timeline';
+import { Timeline } from './scene/timeline';
 import { initDebug, type Mode } from './debug';
 import { initHero } from './hero';
 import { createInkRenderer } from './look';
@@ -120,20 +120,6 @@ const lookAt = new THREE.Vector3();
 let last = performance.now();
 let hudText = '';
 
-// Keep the browser's theme colour (status bar tint on browsers that use it) matching the top of the
-// screen: the hero's Oats sky, the 3D sky, washed towards Oats by the veil and to black by the cut.
-const themeMeta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]')!;
-const fadeEl = document.querySelector<HTMLElement>('#fade')!;
-const OATS = new THREE.Color('#f4efe6');
-const BLACK = new THREE.Color('#0b0a09');
-const top = new THREE.Color();
-function matchStatusBar(veiled: number) {
-  top.set(currentS < HANDOVER.cut ? '#f2eee6' : (scene.background as THREE.Color));
-  top.lerp(OATS, veiled).lerp(BLACK, Number(fadeEl.style.opacity) || 0);
-  const hex = `#${top.getHexString()}`;
-  if (themeMeta.content !== hex) themeMeta.content = hex;
-}
-
 /** Reduced motion: render each 3D stop's view once into a still behind its copy; no animation loop. */
 function buildStills() {
   document.body.classList.add('reduced');
@@ -168,8 +154,7 @@ else renderer.setAnimationLoop(() => {
   }
   // The free camera always looks at the 3D scene, so the photo steps aside.
   const photoCovers = hero.update(mode === 'scroll' ? currentS : Infinity);
-  const veiled = content.update(currentS);
-  matchStatusBar(veiled);
+  content.update(currentS);
 
   if (DEBUG) {
     const current = timeline.rangeAt(currentS);

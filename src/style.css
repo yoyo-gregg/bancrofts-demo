@@ -6,6 +6,16 @@
   --sage-50: rgba(191, 221, 216, 0.5);
   --gold: #b39863; /* Corporate Gold */
   --serif: 'Minion Pro', 'Crimson Pro', Georgia, serif;
+  /* The scene sits in a window framed in Oats: a solid header band above, a border on the other
+     three sides (Figma: 88px / 12px desktop, status bar + 90px / 6px mobile). */
+  --frame-top: calc(88px + env(safe-area-inset-top));
+  --frame-side: 12px;
+}
+@media (max-width: 767px) {
+  :root {
+    --frame-top: calc(90px + env(safe-area-inset-top));
+    --frame-side: 6px;
+  }
 }
 
 /* The page itself never scrolls (see #scroller), so a phone's address bar never collapses or grows. */
@@ -40,35 +50,29 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Full-screen layers fill the visible screen (dvh), starting at the very top, under the status bar
-   (viewport-fit=cover). The address bar no longer changes size, as the page itself doesn't scroll. */
-#stage {
+/* The scene layers (3D, hero photo, black cut, veil) all fill the framed window. */
+#stage,
+#hero,
+#fade,
+#veil {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100dvh;
+  top: var(--frame-top);
+  left: var(--frame-side);
+  width: calc(100vw - 2 * var(--frame-side));
+  height: calc(100dvh - var(--frame-top) - var(--frame-side));
+}
+#stage {
   display: block;
 }
 
 /* Stop 1: hero photo, drawn by src/hero.ts (layout per Figma Desktop Scene 1). */
 #hero {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100dvh;
   display: block;
   background: #f2eee6;
 }
 
 /* Black used to hide the photo → 3D cut inside the archway. */
 #fade {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100dvh;
   background: #0b0a09;
   opacity: 0;
   pointer-events: none;
@@ -157,12 +161,16 @@ body {
 
 /* ---------------------------------------------------------------- Header */
 
+/* Solid Oats band across the top: the scene's frame (and what sits behind a phone's status bar). */
 #site-header {
   position: fixed;
-  top: calc(32px + env(safe-area-inset-top));
+  top: 0;
   left: 0;
   right: 0;
-  padding: 0 48px;
+  height: var(--frame-top);
+  box-sizing: border-box;
+  padding: env(safe-area-inset-top) 48px 12px;
+  background: var(--oats);
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -292,11 +300,6 @@ body {
 /* While a stop's copy is up, an even Oats veil sits between the illustration and the copy (the Figma
    frames put copy on flat Oats). Its strength follows the copy in and out; see VEIL in content.ts. */
 #veil {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100dvh;
   background: transparent;
   pointer-events: none;
   z-index: 3;
@@ -466,8 +469,7 @@ body {
   }
 
   #site-header {
-    top: calc(20px + env(safe-area-inset-top));
-    padding: 0 18px;
+    padding: env(safe-area-inset-top) 18px 6px;
   }
   .menu {
     width: 54px;
@@ -584,7 +586,12 @@ body {
 .reduced .panel {
   position: relative;
   isolation: isolate;
-  min-height: 100svh;
+  min-height: 100dvh;
+  box-sizing: border-box;
+  /* The same Oats frame as the scrolling version, around each stop's still. */
+  border: solid var(--oats);
+  border-width: var(--frame-top) var(--frame-side) var(--frame-side);
+  padding-top: 0;
   visibility: visible;
   overflow: hidden;
 }

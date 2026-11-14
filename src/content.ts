@@ -79,7 +79,7 @@ export function initContent(timeline: Timeline, scrollToS: (s: number) => void, 
     );
     panels.forEach((p) => seen.observe(p));
     setActive(0);
-    return { update: (_s: number) => 0 };
+    return { update: (_s: number) => {} };
   }
 
   function update(s: number) {
@@ -125,7 +125,6 @@ export function initContent(timeline: Timeline, scrollToS: (s: number) => void, 
     cue.style.opacity = String(1 - ease(clamp01(s / 10)));
 
     setActive(timeline.rangeAt(s));
-    return strength; // veil strength, for matching the phone's status bar colour
   }
 
   return { update };

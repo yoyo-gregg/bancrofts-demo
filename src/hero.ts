@@ -71,7 +71,8 @@ export function initHero() {
     const tx = (w / 2 - ax) * centre;
     const ty = (h / 2 - ay) * centre;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.fillStyle = GROUND;
+    // Sky-coloured until the photo has loaded, so a slow connection doesn't show a dark band.
+    ctx.fillStyle = ready ? GROUND : SKY_BOTTOM;
     ctx.fillRect(0, 0, w, h);
     ctx.setTransform(scale * dpr, 0, 0, scale * dpr, dpr * (ax * (1 - scale) + tx), dpr * (ay * (1 - scale) + ty));
     const sky = ctx.createLinearGradient(0, 0, 0, h);
