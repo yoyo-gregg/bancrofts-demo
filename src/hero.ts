@@ -33,9 +33,12 @@ export function initHero() {
   let h = 0;
   let dpr = 1;
   function resize() {
+    // From the canvas's own size (100lvh), so the photo still reaches the bottom when a phone's
+    // address bar shrinks, and the bar sliding in and out doesn't trigger a redraw.
+    if (canvas.clientWidth === w && canvas.clientHeight === h) return;
     dpr = Math.min(devicePixelRatio, innerWidth < 768 || matchMedia('(pointer: coarse)').matches ? 1.5 : 2);
-    w = innerWidth;
-    h = innerHeight;
+    w = canvas.clientWidth;
+    h = canvas.clientHeight;
     canvas.width = Math.round(w * dpr);
     canvas.height = Math.round(h * dpr);
     drawn = '';

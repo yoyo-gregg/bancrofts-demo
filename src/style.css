@@ -11,7 +11,7 @@
 html,
 body {
   margin: 0;
-  background: #dce4e7;
+  background: var(--oats);
 }
 
 body {
@@ -20,20 +20,25 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Full-screen layers are sized to the large viewport (lvh), so when a phone's address bar shrinks on
+   scroll the scene still reaches the bottom of the screen; they start at the very top, under the
+   status bar (viewport-fit=cover). */
 #stage {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100vw;
-  height: 100svh;
+  height: 100lvh;
   display: block;
 }
 
 /* Stop 1: hero photo, drawn by src/hero.ts (layout per Figma Desktop Scene 1). */
 #hero {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100vw;
-  height: 100svh;
+  height: 100lvh;
   display: block;
   background: #f2eee6;
 }
@@ -41,7 +46,10 @@ body {
 /* Black used to hide the photo → 3D cut inside the archway. */
 #fade {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100lvh;
   background: #0b0a09;
   opacity: 0;
   pointer-events: none;
@@ -132,7 +140,7 @@ body {
 
 #site-header {
   position: fixed;
-  top: 32px;
+  top: calc(32px + env(safe-area-inset-top));
   left: 0;
   right: 0;
   padding: 0 48px;
@@ -266,7 +274,10 @@ body {
    frames put copy on flat Oats). Its strength follows the copy in and out; see VEIL in content.ts. */
 #veil {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100lvh;
   background: transparent;
   pointer-events: none;
   z-index: 3;
@@ -436,7 +447,7 @@ body {
   }
 
   #site-header {
-    top: 20px;
+    top: calc(20px + env(safe-area-inset-top));
     padding: 0 18px;
   }
   .menu {
@@ -475,7 +486,7 @@ body {
   }
 
   .panel {
-    padding: 60px 18px 0;
+    padding: calc(60px + env(safe-area-inset-top)) 18px 0;
     box-sizing: border-box;
   }
   .stack,
