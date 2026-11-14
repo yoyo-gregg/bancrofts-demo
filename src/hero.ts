@@ -43,7 +43,9 @@ export function initHero() {
     canvas.height = Math.round(h * dpr);
     drawn = '';
   }
-  addEventListener('resize', resize);
+  // Watch the canvas's own box, not just window resizes: opening from another app (e.g. a WhatsApp
+  // link) can settle the viewport after load without a resize event, leaving the photo stretched.
+  new ResizeObserver(resize).observe(canvas);
   resize();
 
   /**

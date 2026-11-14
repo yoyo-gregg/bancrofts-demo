@@ -111,7 +111,9 @@ function resize() {
   camera.fov = camera.aspect < 1 ? 50 + (1 - camera.aspect) * 40 : 50;
   camera.updateProjectionMatrix();
 }
-addEventListener('resize', resize);
+// Watch the canvas's own box rather than window resizes: opening from another app can settle the
+// viewport after load without firing a resize event, which would leave the scene stretched.
+new ResizeObserver(resize).observe(canvas);
 resize();
 
 const hero = initHero();
