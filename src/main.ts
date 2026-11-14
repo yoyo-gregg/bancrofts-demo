@@ -24,6 +24,8 @@ const REDUCED =
 const isMobile = () => innerWidth < 768 || matchMedia('(pointer: coarse)').matches;
 
 const canvas = document.querySelector<HTMLCanvasElement>('#stage')!;
+// Scrolling happens inside this full-screen box rather than the page (see style.css).
+const scroller = document.querySelector<HTMLElement>('#scroller')!;
 const track = document.querySelector<HTMLElement>('#track')!;
 const hud = document.querySelector<HTMLElement>('#hud')!;
 
@@ -52,10 +54,11 @@ timeline.pace(path.lengths);
 
 // Scroll → position in svh along the timeline, smoothed in the render loop.
 track.style.height = `${timeline.total}svh`;
-const maxScroll = () => document.documentElement.scrollHeight - innerHeight;
-let targetS = (scrollY / Math.max(maxScroll(), 1)) * timeline.total;
+const maxScroll = () => scroller.scrollHeight - scroller.clientHeight;
+let targetS = (scroller.scrollTop / Math.max(maxScroll(), 1)) * timeline.total;
 let currentS = targetS;
 ScrollTrigger.create({
+  scroller,
   trigger: track,
   start: 'top top',
   end: 'bottom bottom',
@@ -63,7 +66,7 @@ ScrollTrigger.create({
 });
 
 function scrollToS(s: number) {
-  gsap.to(window, { duration: 1.4, ease: 'power2.inOut', scrollTo: (s / timeline.total) * maxScroll() });
+  gsap.to(scroller, { duration: 1.4, ease: 'power2.inOut', scrollTo: (s / timeline.total) * maxScroll() });
 }
 
 // Debug free-fly camera. Only attached to the canvas while in free mode: attached, it sets
@@ -74,6 +77,7 @@ let mode: Mode = 'scroll';
 
 function setMode(next: Mode) {
   mode = next;
+  scroller.classList.toggle('is-passive', next === 'free');
   if (next === 'free') {
     controls.connect(canvas);
     controls.target.copy(camera.getWorldDirection(lookAt).multiplyScalar(15).add(camera.position));

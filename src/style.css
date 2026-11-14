@@ -8,10 +8,30 @@
   --serif: 'Minion Pro', 'Crimson Pro', Georgia, serif;
 }
 
+/* The page itself never scrolls (see #scroller), so a phone's address bar never collapses or grows. */
 html,
 body {
   margin: 0;
+  height: 100%;
+  overflow: hidden;
   background: var(--oats);
+}
+
+#scroller {
+  position: fixed;
+  inset: 0;
+  height: 100dvh;
+  overflow: hidden auto;
+  overscroll-behavior: none;
+  scrollbar-width: none;
+  z-index: 4;
+}
+#scroller::-webkit-scrollbar {
+  display: none;
+}
+/* The debug free-fly camera needs the pointer on the canvas underneath. */
+#scroller.is-passive {
+  pointer-events: none;
 }
 
 body {
@@ -20,15 +40,14 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Full-screen layers are sized to the large viewport (lvh), so when a phone's address bar shrinks on
-   scroll the scene still reaches the bottom of the screen; they start at the very top, under the
-   status bar (viewport-fit=cover). */
+/* Full-screen layers fill the visible screen (dvh), starting at the very top, under the status bar
+   (viewport-fit=cover). The address bar no longer changes size, as the page itself doesn't scroll. */
 #stage {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100lvh;
+  height: 100dvh;
   display: block;
 }
 
@@ -38,7 +57,7 @@ body {
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100lvh;
+  height: 100dvh;
   display: block;
   background: #f2eee6;
 }
@@ -49,7 +68,7 @@ body {
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100lvh;
+  height: 100dvh;
   background: #0b0a09;
   opacity: 0;
   pointer-events: none;
@@ -277,7 +296,7 @@ body {
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100lvh;
+  height: 100dvh;
   background: transparent;
   pointer-events: none;
   z-index: 3;

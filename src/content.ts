@@ -64,7 +64,7 @@ export function initContent(timeline: Timeline, scrollToS: (s: number) => void, 
   const overlay = document.querySelector<HTMLElement>('#video-overlay')!;
   const setVideo = (open: boolean) => {
     overlay.hidden = !open;
-    document.documentElement.style.overflow = open ? 'hidden' : '';
+    document.querySelector<HTMLElement>('#scroller')!.style.overflow = open ? 'hidden' : '';
   };
   document.querySelector('.video')!.addEventListener('click', () => setVideo(true));
   overlay.querySelector('.video-overlay__close')!.addEventListener('click', () => setVideo(false));
