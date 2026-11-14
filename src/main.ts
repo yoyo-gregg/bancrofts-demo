@@ -66,15 +66,21 @@ function scrollToS(s: number) {
   gsap.to(window, { duration: 1.4, ease: 'power2.inOut', scrollTo: (s / timeline.total) * maxScroll() });
 }
 
-const controls = new OrbitControls(camera, canvas);
-controls.enabled = false;
+// Debug free-fly camera. Only attached to the canvas while in free mode: attached, it sets
+// `touch-action: none` on the canvas, which stops touch scrolling on phones once the 3D is showing.
+const controls = new OrbitControls(camera);
 controls.enableDamping = true;
 let mode: Mode = 'scroll';
 
 function setMode(next: Mode) {
   mode = next;
-  controls.enabled = next === 'free';
-  if (next === 'free') controls.target.copy(camera.getWorldDirection(lookAt).multiplyScalar(15).add(camera.position));
+  if (next === 'free') {
+    controls.connect(canvas);
+    controls.target.copy(camera.getWorldDirection(lookAt).multiplyScalar(15).add(camera.position));
+  } else {
+    controls.disconnect();
+    canvas.style.touchAction = '';
+  }
 }
 
 const debug = DEBUG
