@@ -314,7 +314,7 @@ body {
 .panel--hero .stack {
   /* Sits in the sky above the photo (Figma centres it 175px above the middle; the photo here is a
      touch smaller, so the copy sits a little lower). */
-  transform: translateY(-150px);
+  transform: translateY(calc(-150px - var(--hero-lift, 0px)));
 }
 .stack--426 {
   width: 426px;

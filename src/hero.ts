@@ -2,6 +2,11 @@ import { HANDOVER as H } from './scene/timeline';
 
 // Arch centre within the hero photo, as fractions of its width and height.
 const ARCH = { x: 0.509, y: 0.821 };
+// Heights within the photo, as fractions: the flagpole's tip, and the foot of the gates (kept in view).
+const FLAG_TOP = 0.105;
+const GATES_FOOT = 0.9;
+/** Clear space (px) kept between the bottom of the hero copy and the flag. */
+const COPY_GAP = 32;
 const SKY_TOP = '#f2eee6';
 const SKY_BOTTOM = '#aec0da';
 const GROUND = '#3a3934';
@@ -33,8 +38,7 @@ export function initHero() {
   let h = 0;
   let dpr = 1;
   function resize() {
-    // From the canvas's own size (100lvh), so the photo still reaches the bottom when a phone's
-    // address bar shrinks, and the bar sliding in and out doesn't trigger a redraw.
+    // From the canvas's own size (the framed window), rather than the window's.
     if (canvas.clientWidth === w && canvas.clientHeight === h) return;
     dpr = Math.min(devicePixelRatio, innerWidth < 768 || matchMedia('(pointer: coarse)').matches ? 1.5 : 2);
     w = canvas.clientWidth;
@@ -47,11 +51,20 @@ export function initHero() {
   // link) can settle the viewport after load without a resize event, leaving the photo stretched.
   new ResizeObserver(resize).observe(canvas);
   resize();
+  // The copy's height changes once the web font arrives, so lay out again then.
+  document.fonts.ready.then(() => (drawn = ''));
+
+  const copy = document.querySelector<HTMLElement>('.panel--hero .stack')!;
+  let lift = 0;
 
   /**
    * Photo rect in screen space before any push: full width, centred on the arch, set 5% lower than
    * Figma (cropping a little road) so there's more sky above the tower for the copy. It can't simply
    * be scaled down: the panorama is ~3:1, so any smaller and it stops spanning wide screens.
+   *
+   * On wide screens that makes the photo tall enough for the flag to reach the copy, so the photo
+   * drops lower (cropping more road, but never the gates the zoom dives into), and only if that's not
+   * enough does the copy lift up.
    */
   function layout() {
     // Mobile (Figma Mobile Scene 1): the photo fills the bottom ~44% of the screen, cropped at the sides.
@@ -59,7 +72,24 @@ export function initHero() {
     const ph = mobile ? Math.max(0.435 * h, w / 2.985) : Math.max(0.628 * h, 0.353 * w);
     const pw = ph * (img.naturalWidth / img.naturalHeight || 2.985);
     const px = w / 2 - pw * ARCH.x;
-    const py = mobile ? h - ph : h * 1.075 - ph;
+    let py = mobile ? h - ph : h * 1.075 - ph;
+
+    if (!mobile) {
+      const canvasTop = canvas.getBoundingClientRect().top;
+      const box = copy.getBoundingClientRect();
+      // Where the copy sits without any lift, in canvas coordinates.
+      const copyTop = box.top + lift - canvasTop;
+      const copyBottom = box.bottom + lift - canvasTop;
+      const clearPy = copyBottom + COPY_GAP - FLAG_TOP * ph; // photo position that clears the flag
+      const lowestPy = h - GATES_FOOT * ph; // any lower and the gates leave the frame
+      py = Math.max(py, Math.min(clearPy, lowestPy));
+      const wantLift = Math.max(0, clearPy - lowestPy);
+      const next = Math.min(wantLift, Math.max(0, copyTop - 24)); // stay below the header band
+      if (Math.abs(next - lift) > 0.5) {
+        lift = next;
+        copy.style.setProperty('--hero-lift', `${lift.toFixed(1)}px`);
+      }
+    }
     return { px, py, pw, ph, ax: px + pw * ARCH.x, ay: py + ph * ARCH.y };
   }
 
