@@ -3,7 +3,6 @@
   --blue: #2c4255; /* Corporate Blue */
   --oats: #f4efe6; /* Oats */
   --sage: #bfddd8; /* Sage */
-  --sage-50: rgba(191, 221, 216, 0.5);
   --gold: #b39863; /* Corporate Gold */
   --serif: 'Minion Pro', 'Crimson Pro', Georgia, serif;
   /* The scene sits in a window framed in Oats: a solid header band above, a border on the other
@@ -96,7 +95,8 @@ body {
   line-height: 1;
 }
 .h3 {
-  font-size: 40px;
+  font-size: 56px;
+  letter-spacing: -1px;
 }
 .h4 {
   font-size: 32px;
@@ -135,28 +135,42 @@ body {
   border: 0;
   cursor: pointer;
 }
+/* Labels trimmed to cap height (as in Figma), so capitals sit in the middle rather than high. */
+.btn > span,
+.entry__inner > span {
+  text-box: trim-both cap alphabetic;
+}
 .btn > span {
   display: block;
   padding: 12px 16px;
 }
+/* No trimming (e.g. Firefox): nudge the label down instead. */
+@supports not (text-box: trim-both cap alphabetic) {
+  .btn > span {
+    padding: 13px 16px 11px;
+  }
+}
+/* A solid see-through ring round the blue, like the entry cards. */
 .btn--blue {
-  border: 2px solid rgba(44, 66, 85, 0.5);
-  background: none;
+  padding: 4px;
+  background: rgba(44, 66, 85, 0.5);
 }
 .btn--blue > span {
   background: var(--blue);
   color: var(--oats);
 }
-.btn--sage {
-  background: var(--sage-50);
-}
-.btn--sage > span {
-  background: var(--sage);
-  color: var(--blue);
-}
-.btn:hover > span,
-.entry:hover {
-  filter: brightness(0.96);
+/* Rollover (mouse only): Sage with Corporate Blue text. */
+@media (hover: hover) {
+  .btn--blue:hover,
+  .entry:hover {
+    background: rgba(191, 221, 216, 0.5);
+    color: var(--blue);
+  }
+  .btn--blue:hover > span,
+  .entry:hover .entry__inner {
+    background: var(--sage);
+    color: var(--blue);
+  }
 }
 
 /* ---------------------------------------------------------------- Header */
@@ -176,12 +190,15 @@ body {
   justify-content: space-between;
   z-index: 5;
 }
+/* Menu and the mobile Visit link: capitals trimmed and set from the top of their box, as in Figma. */
 .menu {
   position: relative;
+  box-sizing: border-box;
   width: 90px;
   height: 16px;
+  padding-top: 2px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 5px;
   font-size: 12px;
   line-height: 1;
@@ -194,7 +211,15 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  margin-top: -2px;
+  margin-top: 2px;
+}
+.menu__label {
+  text-box: trim-both cap alphabetic;
+}
+/* Desktop: Menu and Visit us sit 8px above the header's bottom edge, level with the wordmark. */
+.menu,
+.visit {
+  margin-bottom: 8px;
 }
 .menu__bars img {
   display: block;
@@ -273,6 +298,16 @@ body {
 #rail img {
   display: block;
 }
+/* Label trimmed to cap height, so the capitals line up with the dot's centre. */
+#rail span {
+  text-box: trim-both cap alphabetic;
+}
+@supports not (text-box: trim-both cap alphabetic) {
+  #rail span {
+    position: relative;
+    top: 1px;
+  }
+}
 
 /* ---------------------------------------------------------------- Panels */
 
@@ -317,7 +352,10 @@ body {
   transform: translateY(calc(-150px - var(--hero-lift, 0px)));
 }
 .stack--426 {
-  width: 426px;
+  width: 480px;
+}
+.stack--426 .h3 {
+  width: 428px;
 }
 .stack--669 {
   width: 669px;
@@ -328,7 +366,9 @@ body {
   align-items: center;
   gap: 12px;
 }
-.panel--hero .h3,
+.panel--hero .h3 {
+  width: 480px;
+}
 .panel--hero .body--narrow {
   width: 360px;
 }
@@ -345,8 +385,8 @@ body {
 .entry {
   display: block;
   padding: 4px;
-  background: var(--sage-50);
-  color: var(--blue);
+  background: rgba(44, 66, 85, 0.5);
+  color: var(--oats);
   text-decoration: none;
 }
 .entry__inner {
@@ -357,7 +397,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 6px;
-  background: var(--sage);
+  background: var(--blue);
 }
 .ctas {
   display: flex;
@@ -448,7 +488,7 @@ body {
 
 @media (max-width: 767px) {
   .h3 {
-    font-size: 28px;
+    font-size: 32px;
   }
   .h4 {
     font-size: 24px;
@@ -457,12 +497,12 @@ body {
     font-size: 20px;
     line-height: 1;
   }
-  .body {
-    font-size: 14px;
-    line-height: 1.2;
-  }
   .body--narrow {
-    width: 187px;
+    width: 199px;
+  }
+  /* The hero's subline is Small Print (16/1.2) on mobile. */
+  .panel--hero .body {
+    line-height: 1.2;
   }
   .desktop-only {
     display: none !important;
@@ -471,19 +511,28 @@ body {
   #site-header {
     padding: env(safe-area-inset-top) 18px 6px;
   }
+  .menu,
+  .visit {
+    margin-bottom: 0;
+  }
   .menu {
     width: 54px;
+    height: 24px;
+    padding-top: 4px;
   }
   /* "Visit us" is a plain text link on mobile. */
-  .btn--blue.visit {
-    border: 0;
-    padding: 0;
+  .btn--blue.visit,
+  .btn--blue.visit:hover {
+    background: none;
+    box-sizing: border-box;
+    padding: 4px 0 0;
     width: 54px;
-    height: 16px;
+    height: 24px;
     justify-content: flex-end;
-    align-items: center;
+    align-items: flex-start;
   }
-  .btn--blue.visit > span {
+  .btn--blue.visit > span,
+  .btn--blue.visit:hover > span {
     padding: 0;
     background: none;
     color: var(--blue);
@@ -511,25 +560,30 @@ body {
     box-sizing: border-box;
   }
   .stack,
-  .stack--426,
   .stack--669 {
+    width: 251px;
+    max-width: 100%;
+  }
+  .stack--426 {
     width: 303px;
     max-width: 100%;
   }
   .heading {
-    width: 235px;
+    width: 100%;
   }
   .panel--hero .stack {
     gap: 30px;
     /* Figma: 63px above centre (the panel's 60px top padding already shifts it 30px down). */
     transform: translateY(-93px);
   }
-  .panel--hero .h3,
+  .panel--hero .h3 {
+    width: 100%;
+  }
   .panel--hero .body--narrow {
-    width: 235px;
+    width: 199px;
   }
   .stack--669 .body--narrow {
-    width: 211px;
+    width: 202px;
   }
   .entry-points,
   .ctas {
@@ -537,23 +591,22 @@ body {
     align-items: center;
   }
   .entry-points {
-    gap: 18px;
+    gap: 16px;
   }
   .entry__inner {
     width: 192px;
     height: 92px;
   }
+  /* Heading, video and text 16px apart, then 32px to the button (Figma Mobile Scene 4). */
   .stack--426 {
-    gap: 12px;
+    gap: 16px;
   }
-  .stack--426 .h3 {
-    width: 211px;
-  }
+  .stack--426 .h3,
   .stack--426 .body {
-    width: 249px;
+    width: 199px;
   }
   .stack--426 .btn {
-    margin-top: 20px;
+    margin-top: 16px;
   }
   .video {
     width: 250px;
@@ -566,6 +619,7 @@ body {
   }
   .quote {
     width: 253px;
+    gap: 16px;
   }
 }
 

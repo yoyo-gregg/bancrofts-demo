@@ -23,15 +23,16 @@ export const DEFAULT_PATH: PathPoint[] = [
   { id: 'archway', stop: 1, pos: [37, 1.7, 0], target: [0, 3.5, 0] },
   // 3. The Quad: low, south-west of the column, looking back towards the tower.
   { id: 'quad', stop: 2, pos: [-12, 0.8, 5], target: [2, 5.5, 0] },
-  // Swing out through the south-east corner and up the east side, clear of the column and tree.
-  { id: 'south-east', pos: [16, 2.5, 15], target: [24, 4, -6] },
+  // Swing out towards the south-east corner, turning (via south) to look west along the south range,
+  // then up the east side to the tree, clear of the column.
+  { id: 'south-east', pos: [18, 3, 6], target: [-16, 4, 20] },
   // 4. Old Tree: from the north-east corner, looking back at the tree with the chapel beyond.
   { id: 'old-tree', stop: 3, pos: [24, 2.2, -14], target: [6, 5, -11] },
   // 5. Cloister: from the south lawn, looking across to the cloister walk and chapel.
   { id: 'cloister', stop: 4, pos: [-8, 1.8, 18], target: [-27, 5, -20] },
 ];
 
-const STORAGE_KEY = 'bancrofts.path.v7';
+const STORAGE_KEY = 'bancrofts.path.v9';
 
 export function clonePath(points: PathPoint[]): PathPoint[] {
   return points.map((p) => ({ ...p, pos: [...p.pos] as Vec3, target: [...p.target] as Vec3 }));

@@ -1,5 +1,6 @@
-// Scroll pacing and copy timing. Units are svh. Total scroll is 800svh: the motion spec's 660svh plus
-// 140svh spread over the 3D stops, for a more unhurried fly-through.
+// Scroll pacing and copy timing. Units are svh. Total scroll is 845svh: the motion spec's 660svh plus
+// 185svh spread over the 3D stops, for a more unhurried fly-through (45 of it gives the first view of
+// the quad, out of the archway, a clear moment before its copy arrives).
 //
 // The camera never parks. Each stop has a "moment" in the scroll where the camera passes it, and each
 // stop's copy is timed around that moment (COPY). While a stop's copy and its overlay are up, the camera
@@ -7,7 +8,7 @@
 // stops it eases back up to cruise to do the travelling. Speed is one continuous curve across the whole
 // scroll, and only settles fully at the very end. Moments are placed so the total works out exactly.
 
-export const STOP_RANGES = [100, 180, 160, 180, 180];
+export const STOP_RANGES = [100, 225, 160, 180, 180];
 
 /** When the camera passes the Archway stop, just inside the passage as the black lifts. */
 export const ARCHWAY_AT = 145;
@@ -29,13 +30,13 @@ export const HANDOVER = {
  * Copy timing, in svh relative to each stop's moment. Each panel's beats (heading, then rule/body,
  * then cards/CTAs...) rise in BEAT_GAP apart, each taking FADE, starting LEAD before the moment;
  * the panel leaves EXIT after the moment. The Tower's copy goes as soon as scrolling starts; the
- * Archway's comes in just after the camera passes the stop, as it emerges into the quad.
+ * Archway's holds off until the camera is out into the quad, so the illustration is seen clear first.
  */
 export const COPY = {
   BEAT_GAP: 6,
   FADE: 20,
-  LEAD: [0, -10, 45, 45, 45],
-  EXIT: [0, 85, 30, 30, Infinity],
+  LEAD: [0, -40, 45, 45, 45],
+  EXIT: [0, 115, 30, 30, Infinity],
 };
 
 /** Camera speed while a stop's overlay is up, as a fraction of cruising speed. */
